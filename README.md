@@ -43,17 +43,26 @@ from collections import defaultdict
 from itertools import combinations
 # Function to generate candidate k-item sequences
 def generate_candidates(dataset, k):
+    candidate_count = defaultdict(int)
 
+    for sequence in dataset:
+        for itemset in combinations(sequence, k):
+            candidate_count[itemset] += 1
 
-    /WRITE YOUR CODE HERE/
-
+    return candidate_count
 
 #Function to perform GSP algorithm
-def gsp(dataset, min_support):
+ def gsp(dataset, min_support):
+    frequent_patterns = defaultdict(int)
+    k = 1
+    candidate_count = generate_candidates(dataset, k)
+    frequent_patterns.update({itemset: count for itemset, count in candidate_count.items() if count >= min_support})
+    while candidate_count:
+        k += 1
+        candidate_count = generate_candidates(dataset, k)
+        frequent_patterns.update({itemset: count for itemset, count in candidate_count.items() if count >= min_support})
 
-
-  /WRITE YOUR CODE HERE/
-
+    return frequent_patterns
 
 #Example dataset for each category
 top_wear_data = [
@@ -103,6 +112,8 @@ else:
 ```
 ### Output:
 
+![OP1](https://github.com/JaisonRaphael/WDM_EXP3/assets/94165957/604d1e7f-41ca-44f6-afaa-d6e115b7203c)
+
 ### Visualization:
 ```python
 import matplotlib.pyplot as plt
@@ -131,5 +142,10 @@ visualize_patterns_line(party_wear_result, 'Party Wear')
 ```
 ### Output:
 
+![OP2](https://github.com/JaisonRaphael/WDM_EXP3/assets/94165957/3881fc21-4a8c-4fd0-9c83-3f6bea166b2f)
+
+![OP3](https://github.com/JaisonRaphael/WDM_EXP3/assets/94165957/f1496db8-bada-43e0-bef9-cddf367b2a45)
+
 
 ### Result:
+Thus, the Implementation of GSP Algorithm In Python has been succesfully executed.
